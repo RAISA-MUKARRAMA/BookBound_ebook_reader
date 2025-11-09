@@ -8,9 +8,21 @@ import Navbar from '@/components/Navbar';
 import styles from './page.module.css';
 
 const page = () => {
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
   return (
-    <div>
-      
+    <div className={styles.main}>
+      <Navbar />
+      <div className={styles.container}>
+        <div className={styles.viewer}>
+          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js">
+            <Viewer
+              fileUrl="https://pdfobject.com/pdf/sample.pdf"
+              plugins={[defaultLayoutPluginInstance]}
+              theme="dark"
+            />
+          </Worker>
+        </div>
+      </div>
     </div>
   )
 }

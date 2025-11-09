@@ -39,7 +39,7 @@ const page = () => {
         Bible as one "every adult should read before they die".
       </p>`,
         price: "$9.99",
-        link: "https://www.amazon.com/dp/B08N5WRWNW",
+        link: "https://pdfobject.com/pdf/sample.pdf",
     }
 
   return (
