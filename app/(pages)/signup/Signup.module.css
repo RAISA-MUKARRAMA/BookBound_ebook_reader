@@ -1,0 +1,80 @@
+.signuppage_top {
+    background: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    position: relative;
+    justify-content: center;
+    width: 100vw;
+    height: 50vh;
+    
+}
+.createAccountContainer {
+    margin-top: 500px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+.createAccountContainer h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+.signup_form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 15px;
+}
+.signup_form label {
+    margin-bottom: 5px;
+    color: #555;
+}
+.signup_form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.signup_form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.signup_form button:hover {
+    background-color: #45a049;
+}
+.signin {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #777;
+    text-align: center;
+}
+.signin a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.signin a:hover {
+    text-decoration: underline;
+}
+.agreement {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+}
+.passwordInfo {
+    font-size: 12px;
+    color: #999;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}

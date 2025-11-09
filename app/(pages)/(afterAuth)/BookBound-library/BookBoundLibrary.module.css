@@ -1,0 +1,112 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 60px); /* Assuming Navbar height is 60px */
+}
+.row .left {
+    flex: 1;
+    background-color: #FFFFFF;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.row .right {
+    flex: 5;
+    background-color: #E0E0E0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.menuMain {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    border-bottom: 1px solid #CCCCCC;
+    cursor: pointer;
+}
+.menuItem {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    border-bottom: 1px solid #EEEEEE;
+}
+.bookIcon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #4A90E2;
+}
+.toRight {
+    font-size: 18px;
+    color: #888888;
+    cursor: pointer;
+}
+.bookIcon2 {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #50E3C2;
+}
+.menuItem span {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333333;
+}
+.menuItem span:hover {
+    color: #4A90E2;
+    cursor: pointer;
+}
+.right h1 {
+    font-size: 28px;
+    color: #333333;
+}
+.books {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.bookItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #FFFFFF; */
+    padding: 10px;
+    border-radius: 5px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+.bookItem:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.bookImage {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.bookDetails {
+    display: flex;
+    flex-direction: column;
+}
+.bookTitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 5px;
+}
+.bookAuthor {
+    font-size: 16px;
+    color: #777777;
+}
+.menuItem span:hover {
+    color: #50E3C2;
+    cursor: pointer;
+}
+

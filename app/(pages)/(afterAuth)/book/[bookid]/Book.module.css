@@ -1,0 +1,73 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 60px); /* Assuming Navbar height is 60px */
+}
+.imageContainer {
+    flex: 2;
+    background-color: #FFFFFF;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bookImage {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.details {
+    flex: 3;
+    background-color: #FFFFFF;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.bookTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333333;
+}
+.bookAuthor {
+    font-size: 1.5rem;
+    color: #777777;
+    margin-bottom: 25px;
+}
+.bookDescription {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 30px;
+    overflow: auto;
+}
+.bookPrice {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #E91E63;
+    margin-bottom: 40px;
+}
+.readButton {
+    width: fit-content;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    background-color: #3F51B5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
