@@ -63,6 +63,8 @@ Make sure this matches your backend server URL.
 5. Run the development server:
   ```bash
   npm run dev
+   ```
 
 6. Open your browser and visit: http://localhost:3002 or the port you set up
+
 🎉 The BookBound website should now be live locally!
