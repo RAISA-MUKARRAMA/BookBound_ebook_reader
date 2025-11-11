@@ -67,4 +67,28 @@
 .signup a:hover {
     text-decoration: underline;
 }
+/* Wrap password input and icon */
+.passwordWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.passwordWrapper input {
+    width: 100%;
+    padding-right: 35px; /* space for icon */
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #777;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+.passwordToggle:hover {
+    color: #333;
+}
 

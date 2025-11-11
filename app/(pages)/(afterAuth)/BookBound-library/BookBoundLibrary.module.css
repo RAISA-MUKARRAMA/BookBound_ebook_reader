@@ -1,29 +1,42 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background-color: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  overflow-x: hidden;
 }
+
+
 .row {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - 60px); /* Assuming Navbar height is 60px */
+    /* remove height: calc(100vh - 60px) */
 }
+
 .row .left {
     flex: 1;
     background-color: #FFFFFF;
     padding: 20px;
     box-sizing: border-box;
+    height: fit-content; /* allow it to grow if needed */
+    position: sticky; /* optional: keeps menu visible while scrolling */
+    top: 60px; /* below navbar */
 }
+
 .row .right {
     flex: 5;
     background-color: #E0E0E0;
     padding: 20px;
     box-sizing: border-box;
+    min-height: 100%; /* grow with content */
 }
+
+
+
+
 .menuMain {
     display: flex;
     align-items: center;
@@ -32,81 +45,170 @@
     border-bottom: 1px solid #CCCCCC;
     cursor: pointer;
 }
+
 .menuItem {
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
     border-bottom: 1px solid #EEEEEE;
 }
+
 .bookIcon {
     font-size: 24px;
     margin-right: 10px;
     color: #4A90E2;
 }
+
 .toRight {
     font-size: 18px;
     color: #888888;
     cursor: pointer;
 }
+
 .bookIcon2 {
     font-size: 24px;
     margin-right: 10px;
     color: #50E3C2;
 }
+
 .menuItem span {
     margin: 5px 0;
     font-size: 16px;
     color: #333333;
 }
-.menuItem span:hover {
-    color: #4A90E2;
-    cursor: pointer;
-}
-.right h1 {
-    font-size: 28px;
-    color: #333333;
-}
-.books {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-.bookItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* background-color: #FFFFFF; */
-    padding: 10px;
-    border-radius: 5px;
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-}
-.bookItem:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-}
-.bookImage {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    margin-right: 15px;
-}
-.bookDetails {
-    display: flex;
-    flex-direction: column;
-}
-.bookTitle {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333333;
-    margin-bottom: 5px;
-}
-.bookAuthor {
-    font-size: 16px;
-    color: #777777;
-}
+
 .menuItem span:hover {
     color: #50E3C2;
     cursor: pointer;
 }
 
+.right h1 {
+    font-size: 28px;
+    color: #333333;
+}
+
+.books {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.bookItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 320px; /* consistent height for all cards */
+    overflow: hidden;
+    text-align: center;
+    padding: 10px;
+}
+
+.bookItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.bookImageContainer {
+    width: 200px;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bookImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* .bookImage {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 4px;
+} */
+
+.bookDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.bookPrice {
+    font-size: 20px;
+    color: #ff0f2b;
+    margin-top: 4px;
+    font-weight: 500;
+    height: 20%;
+}
+
+
+.bookTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    margin: 5px 0;
+    max-width: 90%;
+    white-space: normal; /* allow wrapping */
+    overflow: visible;
+    text-overflow: unset;
+    text-align: center;
+    line-height: 1.3;
+    height: 50%;
+}
+
+.bookAuthor {
+    font-size: 15px;
+    color: #777777;
+    margin-top: 4px;
+}
+
+/* Pagination Buttons */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #357ABD;
+}
+
+.pagination button:disabled {
+    background-color: #A0C4F7;
+    cursor: not-allowed;
+}
+.pagination span {
+    font-size: 16px;
+    color: #333333;
+}
