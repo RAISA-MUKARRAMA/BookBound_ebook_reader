@@ -29,14 +29,38 @@ const Page = () => {
       setEmail(storedEmail);
     }
 
+    const checkIfPurchased = async (email: string, bookId: string) => {
+      const res = await fetch(`${apiURL}/api/purchase/check`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, bookId }),
+      });
+      const data = await res.json();
+      return data.purchased;
+    };
+
+
 
     const fetchCart = async () => {
       try {
         setLoading(true);
+
         const res = await fetch(`${apiURL}/api/cart/${email}`);
         const data = await res.json();
-        if (data.success) setItems(data.items);
-        else setError(data.message || "Failed to fetch cart.");
+
+        if (!data.success) {
+          setError(data.message || "Failed to fetch cart.");
+          return;
+        }
+
+        const filtered = [];
+        for (let item of data.items) {
+          const purchased = await checkIfPurchased(email, item.bookId);
+          if (!purchased) filtered.push(item);
+        }
+
+        setItems(filtered);
+
       } catch (err) {
         console.error("Fetch cart error:", err);
         setError("Network error. Please try again later.");
@@ -44,8 +68,8 @@ const Page = () => {
         setLoading(false);
       }
     };
-    fetchCart();
-  }, [email]);
+        fetchCart();
+      }, [email]);
 
   // Remove an item from cart
   const removeFromCart = async (bookId: string) => {
@@ -66,6 +90,41 @@ const Page = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    if (items.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiURL}/api/purchase`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          items: items.map(item => ({
+            bookId: item.bookId,
+            price: item.price
+          }))
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.redirectURL) {
+        router.push(data.redirectURL);
+      } else {
+        alert(data.message || "Checkout failed.");
+      }
+
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("Something went wrong. Try again.");
+    }
+  };
+
+
+
   // Calculate total price
   const totalPrice = items.reduce((sum, item) => sum + (item.price || 0), 0);
 
@@ -84,7 +143,7 @@ const Page = () => {
           <>
             <div className={styles.cartItems}>
               {items.map((item) => (
-                <div key={item.bookId.toString()} className={styles.cartItem}>
+                <div key={item.bookId} className={styles.cartItem}>
                   <img
                     src={item.image}
                     alt={item.title}
@@ -108,7 +167,7 @@ const Page = () => {
               <h2>Order Summary</h2>
               <p>Total items: {items.length}</p>
               <p className={styles.total}>Total Price: ${totalPrice.toFixed(2)}</p>
-              <button className={styles.checkoutBtn}>Proceed to Checkout</button>
+              <button className={styles.checkoutBtn} onClick={handleCheckout}>Proceed to Checkout</button>
             </div>
           </>
         )}

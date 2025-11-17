@@ -5,6 +5,7 @@
     width: 100%;
     min-height: 100vh;
     background-color: #F5F5F5;
+    margin-top: 70px; /* to account for fixed navbar height */
 }
 .container {
     display: flex;

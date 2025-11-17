@@ -10,6 +10,7 @@ const Profile = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
   const [books, setBooks] = useState<any[]>([]);
+  const [purchaseHistory, setPurchaseHistory] = useState<Purchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -23,13 +24,32 @@ const Profile = () => {
 
     const fetchUserData = async () => {
       try {
-        const res = await fetch(`${apiURL}/api/users/${email}`);
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message);
-        setUserData(data.user);
-        setBooks(data.purchasedBooks || []);
+        // Fetch purchased books
+        const resBooks = await fetch(`${apiURL}/api/purchase/checkForAUser`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const dataBooks = await resBooks.json();
+        if (!resBooks.ok) throw new Error(dataBooks.message || "Failed to fetch books");
+
+        setUserData(dataBooks.user);
+        setBooks(dataBooks.books || []);
+
+        // Fetch purchase history
+        const resHistory = await fetch(`${apiURL}/api/purchase/history`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const dataHistory = await resHistory.json();
+        if (!resHistory.ok) throw new Error(dataHistory.message || "Failed to fetch purchase history");
+
+        setPurchaseHistory(dataHistory.purchases || []);
+
       } catch (err: any) {
-        setError(err.message);
+        console.error(err);
+        setError(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -39,8 +59,8 @@ const Profile = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("userEmail"); // clear user session
-    router.push("/"); // redirect to login page
+    localStorage.removeItem("userEmail"); 
+    router.push("/"); 
   };
 
   if (loading) return <p className={styles.loading}>Loading...</p>;
@@ -59,12 +79,13 @@ const Profile = () => {
         <button className={styles.logoutBtn} onClick={handleLogout}>Logout</button>
       </div>
 
+      {/* Purchased Books Section */}
       <div className={styles.booksSection}>
-        <h3>Your Purchased Books</h3>
+        <h3>My Purchased Books</h3>
         {books.length > 0 ? (
           <div className={styles.booksGrid}>
             {books.map((book) => (
-              <div key={book._id} className={styles.bookCard}>
+              <div key={book._id} className={styles.bookCard} onClick={() => router.push(`book/${book._id}`)}>
                 <img src={book.image} alt={book.title} className={styles.bookImage} />
                 <h4>{book.title}</h4>
                 <p>{book.author}</p>
@@ -73,6 +94,35 @@ const Profile = () => {
           </div>
         ) : (
           <p className={styles.noBooks}>You haven't purchased any books yet.</p>
+        )}
+      </div>
+
+      {/* Purchase History Section */}
+      <div className={styles.purchaseHistorySection}>
+        <h3>Purchase History</h3>
+        {purchaseHistory.length > 0 ? (
+          <table className={styles.historyTable}>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Number of Books</th>
+                <th>Books</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {purchaseHistory.map((purchase) => (
+                <tr key={purchase._id}>
+                  <td>{new Date(purchase.createdAt).toLocaleDateString()}</td>
+                  <td>{purchase.books.length}</td>
+                  <td>{purchase.books.map(book => book.title).join(", ")}</td>
+                  <td>${purchase.priceAtPurchase.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className={styles.noBooks}>No purchase history available.</p>
         )}
       </div>
     </div>

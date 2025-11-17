@@ -23,7 +23,7 @@
     box-sizing: border-box;
     height: fit-content; /* allow it to grow if needed */
     position: sticky; /* optional: keeps menu visible while scrolling */
-    top: 60px; /* below navbar */
+    top: 70px; /* below navbar */
 }
 
 .row .right {
@@ -32,6 +32,8 @@
     padding: 20px;
     box-sizing: border-box;
     min-height: 100%; /* grow with content */
+    margin-top: 70px; /* to account for fixed navbar height */
+
 }
 
 

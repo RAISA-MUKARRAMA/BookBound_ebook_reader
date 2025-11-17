@@ -24,14 +24,12 @@ const BookPage = () => {
   const [loading, setLoading] = useState(true);
   const [purchased, setPurchased] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userEmail, setuserEmail] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
-    // Simulate logged-in user (you’ll replace this with your auth context later)
-    const storeduserEmail = localStorage.getItem("userEmail");
-    if (storeduserEmail) {
-      setuserEmail(storeduserEmail);
-    }
+    const storedUserEmail = localStorage.getItem("userEmail");
+    console.log("Retrieved userEmail from localStorage:", storedUserEmail);
+    if (storedUserEmail) setUserEmail(storedUserEmail);
   }, []);
 
   // Fetch book details
@@ -40,11 +38,8 @@ const BookPage = () => {
       try {
         const response = await fetch(`${apiURL}/api/books/${bookid}`);
         const data = await response.json();
-        if (response.ok) {
-          setBook(data);
-        } else {
-          setError(data.message || "Failed to fetch book details");
-        }
+        if (response.ok) setBook(data);
+        else setError(data.message || "Failed to fetch book details");
       } catch (err) {
         console.error("Fetch error:", err);
         setError("Network error. Please try again later.");
@@ -52,7 +47,6 @@ const BookPage = () => {
         setLoading(false);
       }
     };
-
     fetchBook();
   }, [bookid]);
 
@@ -77,64 +71,77 @@ const BookPage = () => {
     checkPurchase();
   }, [userEmail, bookid]);
 
-  // Handle Buy Book
+  // Handle Buy Now → Redirect to Bank
   const handleBuyBook = async () => {
     if (!userEmail) {
       alert("Please log in first.");
       return;
     }
 
+    if (!book) {
+      alert("Book information not available.");
+      return;
+    }
+
     try {
-      const response = await fetch(`${apiURL}/api/purchase`, {
+      const res = await fetch(`${apiURL}/api/purchase`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail, bookId: bookid }),
+        body: JSON.stringify({
+          email: userEmail,
+          items: [
+            {
+              bookId: book._id,
+              price: book.price
+            }
+          ]
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.redirectURL) {
+        window.location.href = data.redirectURL; // redirect to bank
+      } else {
+        alert(data.message || "Failed to initiate purchase.");
+      }
+    } catch (error) {
+      console.error("Buy Now Error:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
+
+  // Add to cart (unchanged)
+  const handleAddToCart = async () => {
+    if (!userEmail) {
+      alert("Please log in first.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiURL}/api/cart/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: userEmail,
+          bookId: bookid,
+        }),
       });
 
       const data = await response.json();
-
       if (data.success) {
-        alert("Purchase successful!");
-        setPurchased(true);
+        alert("Book added to cart!");
       } else {
-        alert(`Purchase failed: ${data.message}`);
+        alert(data.message || "Failed to add book to cart.");
       }
     } catch (error) {
-      console.error("Error purchasing:", error);
+      console.error("Error adding to cart:", error);
       alert("Something went wrong. Please try again later.");
     }
   };
 
-  // Handle Add to Cart
-const handleAddToCart = async () => {
-  if (!userEmail) {
-    alert("Please log in first.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`${apiURL}/api/cart/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: userEmail,
-        bookId: bookid,
-      }),
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      alert("Book added to cart!");
-    } else {
-      alert(data.message || "Failed to add book to cart.");
-    }
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    alert("Something went wrong. Please try again later.");
-  }
-};
-
-
+  // UI Rendering
   if (loading)
     return (
       <div className={styles.main}>
@@ -181,7 +188,6 @@ const handleAddToCart = async () => {
             >
               Read Now
             </button>
-            
           ) : (
             <button className={styles.buyButton} onClick={handleBuyBook}>
               Buy This Book
@@ -189,14 +195,10 @@ const handleAddToCart = async () => {
           )}
 
           {!purchased && (
-            <button 
-              className={styles.cartButton} 
-              onClick={handleAddToCart}
-            >
+            <button className={styles.cartButton} onClick={handleAddToCart}>
               🛒 Add to Cart
             </button>
           )}
-
         </div>
       </div>
     </div>

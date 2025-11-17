@@ -4,6 +4,8 @@
   align-items: center;
   background-color: #f9f9f9;
   min-height: 100vh;
+  margin-top: 70px; /* to account for fixed navbar height */
+  padding: 40px 20px;
 }
 
 .profileCard {
@@ -52,6 +54,7 @@
   text-align: center;
   padding: 10px;
   transition: transform 0.2s ease;
+  cursor: pointer;
 }
 
 .bookCard:hover {
@@ -96,4 +99,53 @@
 }
 .logoutBtn:active {
   background-color: #c72e2e;
+}
+
+.purchaseHistorySection {
+  width: 80%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.purchaseHistorySection h3 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th, .historyTable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.historyTable th {
+  background-color: #5760ff;
+  font-weight: bold;
+}
+
+.historyTable tr:nth-child(even) {
+  background-color: #b9bdfa;
+}
+
+.historyTable tr:hover {
+  background-color: #f1f1f1;
+}
+.noHistory {
+  color: #888;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.loadingHistory, .errorHistory {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #444;
+}
+.errorHistory {
+  color: red;
 }
